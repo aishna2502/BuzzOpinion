@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <section>
+    
+  </section>
+
+
+<!-- <h2>Make a table based on JSON data.</h2> -->
+
+
+<script>
+
+// var header = document.querySelector('header');
+var section = document.querySelector('section');
+
+var obj, dbParam, xmlhttp, myObj, x, txt = "";
+obj = { "table":"customers", "limit":20 };
+dbParam = JSON.stringify(obj);
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        myObj = JSON.parse(this.responseText);
+
+        for (x in myObj) {  
+
+            var heroes = myObj[x].product_types;
+            var myArticle = document.createElement('div');
+            var myBottomDiv = document.createElement('div');
+            myBottomDiv.className='left';
+
+            // var myRightDiv = document.createElement('div');
+            // myRightDiv.className='right';            
+            myArticle.className="div-outer"
+            var myOuterHeadDiv = document.createElement('div');
+            myOuterHeadDiv.className="outer-text";
+            var myH2 = document.createElement('h2');
+            myH2.textContent = myObj[x].display_name;
+            // myLeftDiv.appendChild(myH2);
+            myOuterHeadDiv.appendChild(myH2);
+            myArticle.appendChild(myOuterHeadDiv);
+             // myArticle.appendChild(myLeftDiv);
+              // myArticle.appendChild(myRightDiv);
+            for (i = 0; i < heroes.length; i++) {
+              var myDiv = document.createElement('div');
+              myDiv.className="div-inner"; 
+              var myPara1 = document.createElement('p');
+              var myImg1 = document.createElement('img');
+
+              var myDivText = document.createElement('div');
+              myDivText.className="div-text"
+
+            
+              var myAHREF = document.createElement('a');
+              myAHREF.href="https://www.buzzopinion.com"+heroes[i].url+"?app=true";
+              myPara1.textContent = heroes[i].display_name;
+              myImg1.src="https://www.buzzopinion.com"+heroes[i].icon;
+              
+              var superPowers = heroes[i].display_name;
+              
+              myAHREF.appendChild(myImg1);
+              myDivText.appendChild(myPara1);
+              myDiv.appendChild(myAHREF);
+              
+              myAHREF.appendChild(myDivText);
+              myBottomDiv.appendChild(myDiv);
+              myBottomDiv.style.position="relative";
+            }
+              myArticle.appendChild(myBottomDiv);
+              section.appendChild(myArticle);
+              // myArticle.style.display='block';
+             
+        }
+       
+    }
+};
+xmlhttp.open("GET", "https://www.buzzopinion.com/get-category-details", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.send("x=" + dbParam);
+
+</script>
+
+</body>
+</html>
